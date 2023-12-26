@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Sign in</title>
+    <style>
+      div {
+        margin-bottom: 15px;
+      }
+
+      input {
+        width: 15%;
+        padding: 10px;
+        margin-top: 5px;
+        margin-bottom: 5px;
+        box-sizing: border-box;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+      }
+
+      #user-nameErr,
+      #passErr {
+        color: #e74c3c;
+        margin-top: 5px;
+        font-size: 14px;
+      }
+
+      button {
+        background-color: #3498db;
+        color: white;
+        padding: 10px 20px;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        font-size: 16px;
+      }
+
+      button:hover {
+        background-color: #2980b9;
+      }
+    </style>
+  </head>
+  <body>
+    <div>
+      <input type="text" placeholder="username" id="user-name" />
+    </div>
+    <div id="user-nameErr"></div>
+    <div>
+      <input type="password" placeholder="password" id="pass" />
+    </div>
+    <div id="passErr"></div>
+    <button type="button" id="btn">Login</button>
+    <script src="index.js"></script>
+  </body>
+</html>

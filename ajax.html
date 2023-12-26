@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Users</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <h1>Users</h1>
+    <ul id="user"></ul>
+
+    <script>
+      url = "https://reqres.in/api/users?page=2";
+      document.addEventListener("DOMContentLoaded", function () {
+        fetch(url)
+          .then((res) => res.json())
+          .then((userData) => {
+            const users = userData.data;
+
+            const list = document.getElementById("user");
+
+            users.forEach((el) => {
+              const card = document.createElement("li");
+
+              card.innerHTML = `
+              <img src="${el.avatar}" alt="user-avatar">
+              <p><i>email :</i> ${el.email} </p>
+              `;
+
+              list.appendChild(card);
+            });
+          })
+          .catch((err) => console.log(err));
+      });
+    </script>
+  </body>
+</html>

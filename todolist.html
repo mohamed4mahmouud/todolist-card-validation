@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Todo list</title>
+    <style>
+      body {
+        font-family: "Arial", sans-serif;
+        text-align: center;
+        margin: 20px;
+      }
+
+      #task {
+        padding: 10px;
+        width: 300px;
+      }
+
+      #add-Btn {
+        padding: 10px;
+      }
+
+      #list {
+        list-style-type: none;
+        padding: 0;
+      }
+
+      .item {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 10px;
+        border: 1px solid #ddd;
+        margin-bottom: 10px;
+      }
+
+      .item .task {
+        flex-grow: 1;
+        margin-right: 10px;
+      }
+
+      .item .delete-btn {
+        background-color: #ff3333;
+        color: #fff;
+        border: none;
+        padding: 5px 10px;
+        cursor: pointer;
+      }
+
+      .item .done-btn {
+        background-color: #33cc33;
+        color: #fff;
+        border: none;
+        padding: 5px 10px;
+        cursor: pointer;
+      }
+
+      .done {
+        background-color: #00ff00;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="main">
+      <ul id="list"></ul>
+      <label for="task">Task</label>
+      <input type="text" id="task" placeholder="Task name" />
+      <button type="button" id="add-btn" onclick="saveTask()">Add</button>
+    </div>
+    <script>
+      var taskInput = document.getElementById("task");
+      var tasksList = [];
+
+      if (localStorage.getItem("tasks") !== null) {
+        tasksList = JSON.parse(localStorage.getItem("tasks"));
+        getTask();
+      }
+
+      function saveTask() {
+        var taskValue = taskInput.value;
+
+        if (taskValue === "") {
+          alert("Task name cannot be empty");
+          return;
+        }
+
+        var task = {
+          name: taskValue,
+          done: false,
+        };
+
+        tasksList.push(task);
+        localStorage.setItem("tasks", JSON.stringify(tasksList));
+
+        getTask();
+        taskInput.value = "";
+      }
+
+      function getTask() {
+        var list = document.getElementById("list");
+        var tasks = JSON.parse(localStorage.getItem("tasks"));
+
+        list.innerHTML = "";
+
+        for (let i = 0; i < tasks.length; i++) {
+          var li = document.createElement("li");
+          li.className = "item";
+
+          var content = document.createElement("div");
+          content.className = "task";
+          content.innerHTML = tasks[i].name;
+
+          if (tasks[i].done) {
+            content.classList.add("done");
+          }
+
+          var doneBtn = createDoneButton(i);
+          var deleteBtn = createDeleteButton(li, i);
+
+          li.appendChild(content);
+          li.appendChild(doneBtn);
+          li.appendChild(deleteBtn);
+
+          list.appendChild(li);
+        }
+      }
+
+      function createDoneButton(index) {
+        var doneBtn = document.createElement("button");
+        doneBtn.className = "done-btn";
+        doneBtn.textContent = "done";
+        doneBtn.onclick = function () {
+          markTask(index);
+        };
+        return doneBtn;
+      }
+
+      function createDeleteButton(li, index) {
+        var deleteBtn = document.createElement("button");
+        deleteBtn.textContent = "delete";
+        deleteBtn.className = "delete-btn";
+        deleteBtn.onclick = function () {
+          li.remove();
+          deleteTask(index);
+        };
+        return deleteBtn;
+      }
+
+      function markTask(index) {
+        tasksList[index].done = true;
+        localStorage.setItem("tasks", JSON.stringify(tasksList));
+        getTask();
+      }
+
+      function deleteTask(index) {
+        tasksList.splice(index, 1);
+        localStorage.setItem("tasks", JSON.stringify(tasksList));
+      }
+    </script>
+  </body>
+</html>
